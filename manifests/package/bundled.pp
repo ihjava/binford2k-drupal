@@ -11,7 +11,7 @@ class drupal::package::bundled (
     $real_source = $source
   }
 
-  $php_modules = $osfamily ? {
+  $php_modules = $::osfamily ? {
     'RedHat' =>  ['gd', 'pdo', 'xml'],
     default  =>  ['gd', 'mbstring', 'pdo', 'xml'],
   }
@@ -27,15 +27,16 @@ class drupal::package::bundled (
     before => Exec['install drupal'],
   }
 
-
   exec { 'install drupal':
     command => "/bin/tar --no-same-owner -xf /tmp/drupal-${version}.tar.gz",
     cwd     => $installroot,
     creates => "${installroot}/drupal-${version}",
     before  => File[$docroot],
   }
+
   file { $docroot:
     ensure => symlink,
     target => "drupal-${version}",
+    force  => true,
   }
 }
