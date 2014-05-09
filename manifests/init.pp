@@ -17,6 +17,7 @@ class drupal (
   $drushversion   = $drupal::params::drushversion,
   $managedatabase = $drupal::params::managedatabase,
   $managevhost    = $drupal::params::managevhost,
+  $defaultsite    = $drupal::params::defaultsite,
 ) inherits drupal::params {
   include apache
   include apache::mod::php
@@ -34,7 +35,9 @@ class drupal (
   -> class { 'drupal::configure': }
   -> anchor { 'drupal::end': }
 
-  include drupal::defaultsite
+  if $defaultsite {
+    include drupal::defaultsite
+  }
 
   # TODO: figure out how drush handles multisite for update. Perhaps this should go in the site define
   if $update {
