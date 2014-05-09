@@ -48,4 +48,6 @@ class drupal::params {
   $dbport          = ''
   $dbdriver        = 'mysql'
   $dbprefix        = ''
+
+  $defaultsite     = true
 }
