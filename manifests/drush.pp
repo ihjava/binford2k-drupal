@@ -30,7 +30,7 @@ class drupal::drush (
     exec { 'install drush':
       command => "/bin/tar -xf /tmp/drush-${version}.tar.gz -C ${installdir}",
       creates => "${installdir}/${unpackdir}",
-      notify  => File['ConsoleTable'],
+      before  => File['ConsoleTable'],
     }
   }
 
