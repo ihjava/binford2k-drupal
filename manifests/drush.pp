@@ -1,14 +1,13 @@
 class drupal::drush (
-  $docroot               = $drupal::docroot,
-  $version               = $drupal::drushversion,
-  $installdir            = '/usr/local/share',
-  $console_table_version = '1.1.3',
+  $docroot    = $drupal::docroot,
+  $version    = $drupal::drushversion,
+  $installdir = '/usr/local/share',
 ) {
   # When drush7 gets packaged, drop this crap
 
   # adding support for new drush release location
 
-  if versioncmp($version, '5.0.0') > 0 {
+  if versioncmp($version, '5.9.9') > 0 {
     $download_url =  "https://github.com/drush-ops/drush/archive/${version}.tar.gz"
     $unpackdir = "drush-${version}"
   } else {
@@ -30,16 +29,7 @@ class drupal::drush (
     exec { 'install drush':
       command => "/bin/tar -xf /tmp/drush-${version}.tar.gz -C ${installdir}",
       creates => "${installdir}/${unpackdir}",
-      notify  => File['ConsoleTable'],
     }
-  }
-
-  $console_table_dir = "Console_Table-${console_table_version}"
-
-  file { 'ConsoleTable':
-    path    => "${installdir}/${unpackdir}/lib/${console_table_dir}",
-    source  => "puppet:///modules/drupal/${console_table_dir}",
-    recurse => true,
   }
 
   file { '/usr/local/bin/drush':
