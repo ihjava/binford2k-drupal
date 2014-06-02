@@ -42,7 +42,7 @@ Puppet::Type.type(:drupal_variable).provide(:drush) do
 
   def create
     begin
-      value = resource[:value]
+      self.value = resource[:value]
       @property_hash[:ensure] = :present
     rescue Puppet::ExecutionFailure => e
       raise Puppet::Error, "Couldn't set #{resource[:name]} to #{resource[:value]} (#{e.message})"
