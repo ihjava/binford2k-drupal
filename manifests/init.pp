@@ -18,7 +18,7 @@ class drupal (
   $managedatabase   = $drupal::params::managedatabase,
   $managevhost      = $drupal::params::managevhost,
   $defaultsite      = $drupal::params::defaultsite,
-  $site_autoinstall = $drupal::params::$site_autoinstall,
+  $site_autoinstall = $drupal::params::site_autoinstall,
 ) inherits drupal::params {
   include apache
   include apache::mod::php
@@ -43,7 +43,7 @@ class drupal (
   # TODO: figure out how drush handles multisite for update. Perhaps this should go in the site define
   if $update {
     exec { 'update drupal core and all plugins':
-      command => "drush up",
+      command => 'drush up',
       path    => '/usr/local/bin:/bin:/usr/bin',
       require => Class['drupal::configure'],
     }
