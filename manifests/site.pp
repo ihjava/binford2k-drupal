@@ -1,20 +1,21 @@
 define drupal::site (
-  $ensure         = 'present',
-  $admin_password = randstr(),
-  $database       = $drupal::params::database,
-  $dbuser         = $drupal::params::dbuser,
-  $dbpassword     = $drupal::params::dbpassword,
-  $dbhost         = $drupal::params::dbhost,
-  $dbport         = $drupal::params::dbport,
-  $dbdriver       = $drupal::params::dbdriver,
-  $dbprefix       = $drupal::params::dbprefix,
-  $update         = $drupal::params::update,
-  $docroot        = $drupal::params::docroot,
-  $writeaccess    = $drupal::params::writeaccess,
-  $managedatabase = $drupal::params::managedatabase,
-  $managevhost    = $drupal::params::managevhost,
-  $base_url       = undef,
-  $cookie_domain  = undef,
+  $ensure            = 'present',
+  $admin_password    = randstr(),
+  $database          = $drupal::params::database,
+  $dbuser            = $drupal::params::dbuser,
+  $dbpassword        = $drupal::params::dbpassword,
+  $dbhost            = $drupal::params::dbhost,
+  $dbport            = $drupal::params::dbport,
+  $dbdriver          = $drupal::params::dbdriver,
+  $dbprefix          = $drupal::params::dbprefix,
+  $update            = $drupal::params::update,
+  $docroot           = $drupal::params::docroot,
+  $writeaccess       = $drupal::params::writeaccess,
+  $managedatabase    = $drupal::params::managedatabase,
+  $managevhost       = $drupal::params::managevhost,
+  $base_url          = undef,
+  $cookie_domain     = undef,
+  $site_autoinstall  = $drupal::site_autoinstall,
 ) {
   require drupal::configure
 
@@ -95,14 +96,16 @@ define drupal::site (
       ensure  => file,
       mode    => '0444',
       content => template('drupal/settings.php.erb'),
-    } ->
+    }
 
-    exec { "install ${name} drupal site":
-      command   => "drush site-install standard --account-pass='${admin_password}' -l ${name} --yes --site-name=${name}",
-      path      => '/usr/local/bin:/bin:/usr/bin',
-      unless    => "drush core-status -l ${name} | grep 'bootstrap.*Successful'",
-      logoutput => true,
-      require   => Class['drupal::drush'],
+    if $site_autoinstall {
+      exec { "install ${name} drupal site":
+        command   => "drush site-install standard --account-pass='${admin_password}' -l ${name} --yes --site-name=${name}",
+        path      => '/usr/local/bin:/bin:/usr/bin',
+        unless    => "drush core-status -l ${name} | grep 'bootstrap.*Successful'",
+        logoutput => true,
+        require   => [Class['drupal::drush'], File["${root}/settings.php"]],
+      }
     }
   }
 }
