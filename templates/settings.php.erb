@@ -574,3 +574,9 @@ $conf['404_fast_html'] = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.0//EN"
 # $conf['allow_authorize_operations'] = FALSE;
 
 $conf['install_profile'] = 'standard';
+#
+# Additional site configuration settings. Allows to override global settings.
+#
+if (file_exists('<%= @root %>/local.settings.php')) {
+	include_once('<%= @root %>/local.settings.php');
+}
