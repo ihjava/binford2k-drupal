@@ -10,7 +10,7 @@ facts = {
 status = {}
 
 begin
-  Facter::Util::Resolution.exec("drush core-status 2>/dev/null").each do |line|
+  Facter::Util::Resolution.exec("drush core-status 2>/dev/null").split("\n").each do |line|
     key, val = line.split(':') if line
     status[key.strip] = val.strip
   end
