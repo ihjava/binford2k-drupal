@@ -6,6 +6,7 @@ facts = {
   'drupal_db_username'   => 'Database username',
   'drupal_db_name'       => 'Database name',
   'drupal_drush_version' => 'Drush version',
+  'drupal_version'       => 'Drupal version',
 }
 status = {}
 
