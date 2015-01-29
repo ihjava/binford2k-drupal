@@ -51,4 +51,7 @@ class drupal::params {
 
   $defaultsite      = true
   $site_autoinstall = false
+  $files_owner      = 'root'
+  $files_group      = 'root'
+  $files_mode       = '0644'
 }

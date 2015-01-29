@@ -16,6 +16,9 @@ define drupal::site (
   $base_url          = undef,
   $cookie_domain     = undef,
   $site_autoinstall  = $drupal::site_autoinstall,
+  $files_owner       = $drupal::params::files_owner,
+  $files_group       = $drupal::params::files_group,
+  $files_mode        = $drupal::params::files_mode,
 ) {
   require drupal::configure
 
@@ -70,9 +73,9 @@ define drupal::site (
   }
   else {
     File {
-      owner => 'root',
-      group => 'root',
-      mode  => '0644',
+      owner => $files_owner,
+      group => $files_group,
+      mode  => $files_mode,
     }
 
     file { $root:
