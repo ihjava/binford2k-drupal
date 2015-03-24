@@ -11,16 +11,6 @@ class drupal::package::bundled (
     $real_source = $source
   }
 
-  $php_modules = $::osfamily ? {
-    'RedHat' =>  ['gd', 'pdo', 'xml'],
-    default  =>  ['gd', 'mbstring', 'pdo', 'xml'],
-  }
-
-  php::module { $php_modules:
-    ensure => installed,
-    before => Exec['install drupal'],
-  }
-
   file { "/tmp/drupal-${version}.tar.gz":
     ensure => file,
     source => $real_source,
