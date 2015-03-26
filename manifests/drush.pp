@@ -50,7 +50,7 @@ class drupal::drush (
   
   file { '/usr/local/bin/drush':
     ensure  => symlink,
-    target  => '/usr/local/share/drush',
+    target  => '/usr/local/share/drush/drush',
     require => Exec['install drush'],
   }
 
