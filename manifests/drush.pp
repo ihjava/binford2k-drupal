@@ -42,9 +42,15 @@ class drupal::drush (
     recurse => true,
   }
 
+  file { '/usr/local/share/drush':
+    ensure  => symlink,
+    target  => "${installdir}/${unpackdir}",
+    require => Exec['install drush'],
+  }
+  
   file { '/usr/local/bin/drush':
     ensure  => symlink,
-    target  => "${installdir}/${unpackdir}/drush",
+    target  => '/usr/local/share/drush',
     require => Exec['install drush'],
   }
 
