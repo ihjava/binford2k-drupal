@@ -44,7 +44,6 @@ class drupal::drush (
 
   file { '/usr/local/share/drush':
     ensure  => symlink,
-    force   => true, # we really don't want this to be a directory
     target  => "${installdir}/${unpackdir}",
     require => Exec['install drush'],
   }
